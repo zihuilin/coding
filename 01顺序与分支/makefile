@@ -1,9 +1,9 @@
-appname := P1085
+appname := P1089
 
 CXX := g++
-CXXFLAGS := -Wall -g
+CXXFLAGS := -Wall -g -DDEBUG
 
-srcfiles := $(shell find . -maxdepth 1 -name "P1085*.cpp")
+srcfiles := $(shell find . -maxdepth 1 -name "P1089*.cpp")
 # srcfiles := $(shell find . -maxdepth 1 -name "*.cpp")
 objects  := $(patsubst %.cpp, %.o, $(srcfiles))
 
