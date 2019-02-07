@@ -1,9 +1,9 @@
-appname := P1422
+appname := P1085
 
 CXX := g++
 CXXFLAGS := -Wall -g
 
-srcfiles := $(shell find . -maxdepth 1 -name "P1422*.cpp")
+srcfiles := $(shell find . -maxdepth 1 -name "P1085*.cpp")
 # srcfiles := $(shell find . -maxdepth 1 -name "*.cpp")
 objects  := $(patsubst %.cpp, %.o, $(srcfiles))
 
