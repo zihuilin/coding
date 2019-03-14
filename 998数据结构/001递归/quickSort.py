@@ -18,6 +18,19 @@ def quickSort(a,q,r):
         quickSort(a, p+1, r)
 
 
-quickSort(a, 0, len(a)-1)
+def quickSort2(a, q, r):
+    x = a[r]
+    i = q - 1
+    for j in range(q,r):
+        if a[j] < x :
+            i = i + 1
+            a[i],a[j] = a[j],a[i]
+    a[r],a[i+1] = a[i+1],a[r]
+    p = i+1
+    if q < p-1 : quickSort2(a, q, p-1)
+    if p+1 < r : quickSort2(a, p+1, r)
+
+
+quickSort2(a, 0, len(a)-1)
 print(a)
 
