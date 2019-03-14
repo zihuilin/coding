@@ -1,3 +1,3 @@
 git add .
-git commit -m "数组初始化"
+git commit -m "归并排序"
 git push origin master
