@@ -1,3 +1,3 @@
-git add .
-git commit -m "归并排序"
+#git add .
+git commit -m "heap sort"
 git push origin master
