@@ -19,7 +19,7 @@ $(appname): $(OBJS)
 	$(CC) -o $@ $^
 
 clean:
-	rm -f $(objects) $(appname)
+	rm -f $(OBJS) $(appname)
 
 run: $(appname)
 	./$(appname)

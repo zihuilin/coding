@@ -5,17 +5,19 @@
 
 void init_rand_ints(int arr[], int len) {
     srand(time(NULL));
-    for (int i=0; i<len; i++) {
+    for (int i=0; i<len; i++) 
         arr[i] = rand();
-    }
 }
-/*
-int main(){
-    int a[100];
-    init_rand_ints(a, 100);
-    for (int i=0; i<100; i++) {
-        printf("%d\n", a[i]);
-    }
 
+void print_arr(int arr[], int len) {
+    printf("[");
+    for (int i=0; i<len-1; i++)
+        printf("%d, ", arr[i]);
+    printf("%d]\n", arr[len-1]);
 }
-*/
+int is_equal(int arr[], int brr[], int len) {
+    for (int i=0; i<len-1; i++)
+        if (arr[i] != brr[i])
+            return 0;
+    return 1;
+}
