@@ -10,10 +10,11 @@ INC := -I../include
 srcfile := $(shell find . -maxdepth 1 -name $(appsource))
 includesrcfiles := $(shell find ../include -maxdepth 1 -name "*.cpp")
 OBJS  := $(patsubst %.cpp, %.o, $(srcfile) $(includesrcfiles))
-$(info $(OBJS))
+#$(info $(OBJS))
 
 
-all: $(appname)
+#all: $(appname)
+all: run
 
 $(appname): $(OBJS)
 	$(CC) -o $@ $^
