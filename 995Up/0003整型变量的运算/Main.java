@@ -1,14 +1,8 @@
-import java.util.Scanner;
-
 public class Main{
 
     public static void main(String[] args){
-        Scanner input = new Scanner(System.in);
-        int a = input.nextInt();
-        int b = input.nextInt();
-        int c = a / b;
-        System.out.println(c);
-        c = a % b;
-        System.out.println(c);
+        int a = 1000000000;
+        a = a * 3;
+        System.out.println(a);
     }
 }
