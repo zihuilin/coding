@@ -15,5 +15,5 @@ Math类提供了一些方法（函数），可以做数学计算，比如：
 - Math.min(a, b)，返回a和b中的较小值
 - ……
 - Math.sqrt(a)，计算a的平方根
-- Math.sqrt(a, b)，计算a<sup>b</sup>
+- Math.pow(a, b)，计算a<sup>b</sup>
 - ……
