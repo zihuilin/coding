@@ -1,7 +1,7 @@
 import random
 import time
 
-n = 5000
+n = 2300
 lst =[]
 for i in range(n): #填充0到9至lst
     lst.append(i)
