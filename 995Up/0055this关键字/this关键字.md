@@ -3,32 +3,70 @@
 之前已经将this用在引用某个对象的属性上：
 
 ```java
- 
+	String name;
+
+	public ThisDemo(String name) {
+		super();
+		this.name = name; //引用对象的属性
+    }
+	public String whatsYourName() {
+		return this.name; //引用对象的属性
+	}
 ```
 
-另外，还可以引用某个对象的方法：
+每次调用方法时，this指代的对象是可以不同的：
 
 ```java
- 
+		ThisDemo jack = new ThisDemo("Jack");
+		ThisDemo rose = new ThisDemo("Rose");
+		System.out.println(jack.whatsYourName());
+		System.out.println(rose.whatsYourName());
 ```
 
-this关键字不能引用静态的属性和方法。为什么？
+另外，this还可以引用某个对象的方法：
 
 ```java
- 
+	public void sayHi() {
+		System.out.println(this.whatsYourName() + " says Hi~~~");
+	}
 ```
 
-练习：如果一个方法里使用this引用属性和方法，那么，
+上面的情况下，也可以省略this.
 
-* 每次执行时this表示的是同一个对象吗？
-* 这个时候，"this."可以省略吗？为什么？什么有时我们会选择把this写出来?
+```java
+	public void sayHi() {
+		System.out.println(whatsYourName() + " says Hi~~~");
+	}
+```
+
+堂上练习：this关键字不能引用静态的属性和方法。为什么？
+
+```java
+	static int count = 0;
+	public String whatsYourName() {
+		int a = this.count; //会报“警告”：The static field ThisDemo.count should be accessed in a static way
+		return name; //引用对象的属性
+	}
+```
 
 this关键字还可以调用构造方法
 
 (注意不可以递归调用构造方法，而且this调用构造方法必须写在第1行)
 
 ```java
- 
+	public ThisDemo() {
+		this.name = "无名氏";
+	}
+
+	public ThisDemo(String name) {
+		this(); //调用了上面的无参构造方法
+		if (name != null)
+			this.name = name; //引用对象的属性
+    }
+	public static void main(String[] args) {
+		ThisDemo nobody = new ThisDemo(null);
+		System.out.println(nobody.whatsYourName());
+    }
 ```
 
 练习：为学生类写一个只接收学号的构造方法，然后另外写：

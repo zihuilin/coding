@@ -10,7 +10,7 @@ class LinkedList:
 
     def add_to_head(self, new_data):
         new_node = self.Node(new_data) #创建一个节点
-        if head == None:
+        if self.head == None:
             self.tail = new_node
         new_node.next = self.head #让新节点的next引用原来的head
         self.head = new_node #变更head为这个新节点
@@ -33,9 +33,45 @@ class LinkedList:
         #还要返回被删除节点中的数据
 
     def delete_from_tail(self):
-        #1. 空链表
-        #2. 只有1个节点：
-        #3. 使用while循环找tail前面的节点
+        d = None #用来返回被删除的数据
+        if self.head == None: #1. 空链表
+            d = None
+        elif self.head == self.tail: #2. 只有1个节点：
+            d = self.tail.data
+            self.head = None
+            self.tail = None
+        else: #3. 使用while循环找tail前面的节点
+            d = self.tail.data
+            p = self.head
+            while p.next != self.tail: #如果p后面不是tail
+                p = p.next  #p向后移动
+            self.tail = p #更改tail为tail前面的节点
+            self.tail.next = None #末尾的next总是None
+        return d
+
+    def delete_node(self, data_to_be_deleted):
+        d = data_to_be_deleted
+        if self.head == None:  #空链表
+            return None
+        elif self.head == self.tail and self.head.data == d :
+            #只有一个节点，这个节点是要删除的节点
+            self.head = None
+            self.tail = None
+            return d
+        else:
+            if self.head.data == d:
+                self.head = self.head.next
+                return d
+            else: #通过while循环，寻找d前面的节点
+                p = self.head
+                while p.next != None and p.next.data != d:
+                    p = p.next # 向后移动
+                if p.next != None:
+                    p.next = p.next.next
+                    return d
+        #没找到。。。
+        return None # None表示没有找到要删除的节点
+
 
     #创建一个节点，存放new_data，并把这个节点插入到末尾
     def add_to_tail(self, new_data):
@@ -48,28 +84,33 @@ class LinkedList:
 
 
     def print_all(self):
+        print("head->", end='')
         p = self.head
         while p != None:
-            print(p.data)
+            print("(" + str(p.data) + ")->", end='')
             p = p.next
+        print("None")
 
 llist = LinkedList()
 llist.add_to_head(4)
 llist.add_to_head(2)
 llist.add_to_head(1)
+llist.add_to_tail(9)
+llist.add_to_tail(19)
+llist.print_all()
+llist.delete_node(4)
+llist.print_all()
+llist.delete_node(1)
+llist.print_all()
+llist.delete_node(19)
 llist.print_all()
 '''
-a = Node(1)  #创建一个名为a的Node节点
-b = Node(2)
-c = Node(4)
-a.next = b
-b.next = c
-
-print_linked_list(a)
-
-print(a.data)
-print(b.data)
-print(c.data)
-print(a.next.data)      #打印的b的data
-print(a.next.next.data)  #打印的c的data
+print("删除head:" + str(llist.delete_from_head()))
+print("删除head:" + str(llist.delete_from_head()))
+llist.print_all()
+print("删除tail:" + str(llist.delete_from_tail()))
+print("删除tail:" + str(llist.delete_from_tail()))
+llist.print_all()
+print("删除head:" + str(llist.delete_from_head()))
+llist.print_all()
 '''
