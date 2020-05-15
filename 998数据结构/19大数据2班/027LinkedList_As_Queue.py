@@ -8,6 +8,12 @@ class LinkedList:
         self.head = None  #头部一开始指向None(为空）
         self.tail = None  #尾部一开始指向None(为空）
 
+    def is_empty(self):
+        if self.head == None:
+            return True
+        else:
+            return False
+
     def add_to_head(self, new_data):
         new_node = self.Node(new_data) #创建一个节点
         if self.head == None:
@@ -18,7 +24,7 @@ class LinkedList:
     def delete_from_head(self):
         #1. 当LinkedList为空时
         if self.head == None:
-            d = None # None表示没有可以删除的节点
+            return None # None表示没有可以删除的节点
         if self.head == self.tail :
             d = self.head.data  #记录原来头部的数据
             #让head和tail都引用None
@@ -95,11 +101,30 @@ class Queue:
     def __init__(self):
         self.llist = LinkedList()
 
-    def put(self, data):
-        #堂上练习（1）
+    def put(self, data): #入队
+        self.llist.add_to_tail(data)
 
-    def get(self)
-        #堂上练习（2）
+    def get(self):    #出队
+        return self.llist.delete_from_head()
 
-    def is_empty()
-        #堂上练习（3）
+    def peak(self):   #只看队首，但不出队
+        if self.is_empty():
+            return None   #空队列
+        else:
+            return self.llist.head.data
+
+    def is_empty(self): #是否为空队列
+        return self.llist.is_empty()
+
+q = Queue()
+q.put(1)   #入队1
+print(q.peak())
+q.put(2)   #入队2
+q.put(3)   #入队3
+print(q.is_empty())  #False
+print(q.get()) #出队： 1
+print(q.get()) #出队： 2
+print(q.get()) #出队： 3
+print(q.get()) #出队： None(空队列）
+print(q.is_empty())  #True
+print(q.peak())  #None（空队列）
