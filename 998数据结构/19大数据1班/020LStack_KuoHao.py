@@ -29,11 +29,23 @@ class LStack:
 s = LStack()
 
 string = input()
+is_correct = True
 
 #遍历string的各个字符
+for i in range(len(string)):
     #若字符为'(' :入栈
+    if string[i] == '(':
+        s.push(string[i])
     #另外，若字符为'）' :出栈
+    elif string[i] == ')':
         #如果没得出栈：no
+        if s.pop() == None:
+            is_correct = False            
 #遍历结束后，判断栈非空： no
-#否则： yes
+if s.is_empty() == False:
+    is_correct = False
 
+if is_correct:
+    print("yes")
+else:
+    print("no")
