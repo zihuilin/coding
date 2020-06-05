@@ -3,11 +3,11 @@ class LQueue:
         self.list = [0] * capacity # 一次初始化
         self.capacity = capacity
         #刚初始化好的队列为空
-        self.head = None
-        self.tail = None 
+        self.head = -1
+        self.tail = -1
 
     def is_empty(self):
-        if self.head == None:
+        if self.head == -1:
             return True
         else:
             return False
@@ -34,4 +34,32 @@ class LQueue:
         else:
             self.tail = self.tail + 1
         self.list[self.tail] = data
+
+    def get(self):
+        #1 队列为空：返回None
+        if self.is_empty():
+            return None
+        value = self.list[self.head]
+        #2 队列只有1个元素：出队后，队列为空
+        if self.head == self.tail:
+            self.head = -1
+            self.tail = -1
+        #3 head位于最后，出队后，head为0
+        elif self.head == self.capacity - 1:
+            self.head = 0
+        #4 普通的情况：出队后，head向后移动
+        else:
+            self.head = self.head + 1
+        return value
+
+queue = LQueue(4)
+queue.put(1)
+queue.put(2)
+queue.put(3)
+queue.put(4)
+print(queue.get())  # 1
+queue.put(5)  # [5,2,3.4]
+print(queue.get())  # 2
+queue.put(6)  # [5,6,3.4]
+queue.put(6)  # full queue
 
