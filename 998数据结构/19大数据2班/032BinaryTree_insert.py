@@ -142,11 +142,11 @@ class BinaryTree:
     def __init__(self):
         self.root = None
 
-    def inorder_dfs(self, n):
+    def dfs(self, n):
         if n != None:
-            self.travel(n.left) #再看左后继
+            self.dfs(n.left) #再看左后继
             print(n.data)  #(1)先看此节点
-            self.travel(n.right) #再看右后继
+            self.dfs(n.right) #再看右后继
 
     def inorder_dfs_non_recursive(self):
         s = LinkedListStack()
@@ -185,20 +185,59 @@ class BinaryTree:
                 q.put(node.left)
             if node.right != None:
                 q.put(node.right)
-
     def insert(self, data):
         new_node = BinaryTree.Node(data)
         if self.root == None: # 空树
             self.root = new_node #要插入的就是根节点
-        else: 不是空树
+        else: # 不是空树
         #从根开始，搜索一个合适的位置，放新节点
-            p_node = self.root #p_node为合适位置的父节点
+            p = self.root #p_node为合适位置的父节点
             #在一个循环里，通过比较大小，向下移动
+            while True: #如果能向下，就向下走
+                if data < p.data:
+                    if p.left == None:
+                        p.left = new_node #挂在左边
+                        break #不需要再向下走了
+                    else:
+                        p = p.left #有左孩子，向左走
+                elif data > p.data:
+                    if p.right == None:
+                        p.right = new_node #挂在右边
+                        break #不需要再向下走了
+                    else:
+                        p = p.right #有右孩子，向右走
+                else: #相同，也就是树上已经有了这个数据
+                    break
 
-
-
+    def find_min(self):
+        if self.root is None: #根为空：空树
+            return None
+        else:
+            return self.__find_min(self.root) #从根节点开始寻找最小的节点
+    
+    def __find_min(self, node):
+        ''' 非递归的实现，用while循环
+        while node.left is not None:  # 有左孩子
+            node = node.left          # 走到左孩子这个节点
+        #while结束时，该节点是没有左孩子
+        return node.data #返回该结点上的数据（data）
+        '''
+        #递归的思路：
+        if node.left is None: # 如果该节点没有左子树
+            return node.data  # 出口：返回这个节点的数据
+        else: #否则，在有左子树的情况下
+            return self.__find_min(node.left)#返回 它左子树上最小的节点的数据（递归调用）
 
 tree = BinaryTree()
+tree.insert(5)
+tree.insert(3)
+tree.insert(8)
+#tree.dfs(tree.root)
+print(tree.root.left.data) # 3
+print(tree.root.right.data) # 8
+tree.insert(1)
+print(tree.root.left.left.data) # 1
+'''
 tree.root = BinaryTree.Node(5)
 tree.root.left = BinaryTree.Node(3)
 tree.root.left.left = BinaryTree.Node(1)
@@ -208,6 +247,8 @@ tree.root.right.left = BinaryTree.Node(7)
 tree.root.right.right = BinaryTree.Node(10)
 tree.root.right.right.left = BinaryTree.Node(9)
 tree.root.right.right.right = BinaryTree.Node(11)
+'''
 
+#print(tree.find_min())  # 1
 #tree.bfs()
-tree.inorder_dfs_non_recursive()
+#tree.inorder_dfs_non_recursive()

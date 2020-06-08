@@ -129,6 +129,27 @@ class LLQueue:
     def is_empty(self):
         return self.list.is_empty()
 
+class LLStack:
+    def __init__(self):
+        #初始化一个链表，作为栈的存储结构
+        self.llist = LinkedList()
+
+    def push(self, data):
+        self.llist.add_from_tail(data)
+
+    def pop(self):
+        return self.llist.delete_from_tail()
+
+    def peek(self):
+        if self.llist.is_empty():
+            return None
+        else:
+            return self.llist.tail.data
+
+    def is_empty(self):
+        return self.llist.is_empty()
+
+
 class BinaryTree:
     class Node:
         def __init__(self, data):
@@ -140,9 +161,30 @@ class BinaryTree:
 
     def dfs(self, node):
         if node != None:   #判断递归出口
-            self.dfs(node.right) #访问右子树  （右）
-            print(node.data)        #访问这个节点（中）
             self.dfs(node.left)  #访问左子树  （左）
+            print(node.data)        #访问这个节点（中）
+            self.dfs(node.right) #访问右子树  （右）
+
+    def dfs_non_recursive(self):
+        stack = LLStack() # 用于辅助的栈
+        node = self.root
+        while node is not None:
+            while node is not None: #入栈右孩子，节点本身
+                if node.right is not None:
+                    stack.push(node.right) #入栈右孩子
+                stack.push(node) #入栈该节点
+                node = node.left #走到左孩子，继续循环
+            #此时，刚刚入栈的是最小（最左的）节点
+            node = stack.pop() #此时出栈的是最小的节点
+            while node.right is None and stack.is_empty() is not True:
+                print(node.data) #访问该节点
+                node = stack.pop() #访问那些单独一溜的节点
+            print(node.data) #先访问这个节点
+            if stack.is_empty():
+                break
+            else: #非空，也就是有右子树
+                node = stack.pop() # 弹出右子树的根节点
+
 
     def bfs(self):
         queue = LLQueue() #辅助队列
@@ -159,6 +201,24 @@ class BinaryTree:
                 queue.put(node.right)
 
 
+    def __find_min(self, node):
+        '''  非递归版本
+        #找到最左边的节点，返回它的data
+        while node.left is not None: #如有左孩子
+            node = node.left #走向左孩子
+        return node.data
+        '''
+        if node.left is None: #这个节点没有左子树
+            return node.data
+        else:
+            return self.__find_min(node.left)
+
+    def find_min(self):
+        if self.root is None:
+            return None
+        else:
+            return self.__find_min(self.root)
+
 tree = BinaryTree() #声明一个二叉树
 tree.root = BinaryTree.Node(5)
 tree.root.left = BinaryTree.Node(3)
@@ -169,5 +229,7 @@ tree.root.left.right = BinaryTree.Node(4)
 tree.root.right.left = BinaryTree.Node(6)
 tree.root.right.right = BinaryTree.Node(8)
 
-tree.dfs(tree.root) #从根节点开始遍历
+print(tree.find_min())
+#tree.dfs(tree.root) #从根节点开始遍历
+#tree.dfs_non_recursive() #从根节点开始遍历
 #tree.bfs() #广度优先遍历
