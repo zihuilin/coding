@@ -159,11 +159,21 @@ class BinaryTree:
     def __init__(self):
         self.root = None
 
-    def dfs(self, node):
+    def printNode(self, node):
+        if node is self.root:
+            print("R(" + str(node.data) + ") ", end='')
+        else:
+            print("(" + str(node.data) + ") ", end='')
+
+    def dfs(self):
+        self.__dfs(self.root)
+        print()
+
+    def __dfs(self, node):
         if node != None:   #判断递归出口
-            self.dfs(node.left)  #访问左子树  （左）
-            print(node.data)        #访问这个节点（中）
-            self.dfs(node.right) #访问右子树  （右）
+            self.__dfs(node.left)  #访问左子树  （左）
+            self.printNode(node) #访问这个节点（中）
+            self.__dfs(node.right) #访问右子树  （右）
 
     def dfs_non_recursive(self):
         stack = LLStack() # 用于辅助的栈
@@ -219,7 +229,105 @@ class BinaryTree:
         else:
             return self.__find_min(self.root)
 
+    def find_max(self):
+        if self.root is None:
+            return None
+        else:
+            node = self.root
+            while node.right is not None:
+                node = node.right #向右走
+            return node.data
+
+    def find_max_r(self):
+        if self.root is None:
+            return None
+        else:
+            return self.__find_max(self.root)
+
+    def __find_max(self, node): #返回以node为根的子树的最大值
+        if node.right is None:
+            return node.data
+        else:
+            return self.__find_max(node.right)
+
+    def find(self, data):
+        if self.root is None:
+            return None
+        else:
+            node = self.root
+            while node is not None:
+                if data < node.data:
+                    node = node.left #向左走
+                elif data > node.data:
+                    node = node.right #向右走
+                else: #等于！！找到了
+                    return True
+            return False 
+
+    def add(self, data):
+        if self.root is None:
+            self.root = self.Node(data)
+        else:
+            parent = None
+            node = self.root
+            while node is not None:
+                parent = node #走之前记录parent位置
+                if data < node.data:
+                    node = node.left #向左走
+                elif data > node.data:
+                    node = node.right #向右走
+                else: #重复了！
+                    return None # 说明添加失败
+            #把新的节点挂到parent上
+            if data < parent.data:
+                parent.left = self.Node(data)
+            else:
+                parent.right = self.Node(data)
+        return data #说明添加成功
+
+    def remove(self, data):
+        parent = None    #被删除节点的parent
+        node = self.root #从根开始找起
+        while node is not None:
+            if data < node.data:
+                parent = node #记录parent
+                node = node.left
+            elif data > node.data:
+                parent = node #记录parent
+                node = node.right
+            else: #找到被删除的节点
+                break
+        if node is None: #没找到
+            return None #说明删除失败
+        #要删除这个节点
+        #1. 只有一个孩子：
+        elif node.right is None: #只有左孩子
+            #（若parent为None），这个要删除的节点是根
+            if parent is None:
+                self.root = node.left
+            elif node.data < parent.data:
+                parent.left = node.left
+            elif node.data > parent.data:
+                parent.right = node.left
+        #2. 有两个孩子,以及只有左孩子一并考虑：
+        else:
+            # 找到右子树中最小的节点，同时记录这个节点的parent
+            parentOfSmallestInRight = node
+            smallestInRight = node.right
+            while smallestInRight.left is not None:
+                parentOfSmallestInRight = smallestInRight
+                smallestInRight = smallestInRight.left
+            # 用这个最小的节点来顶替被删除节点
+            node.data = smallestInRight.data
+            # 这个最小节点的右子树不能丢！！
+            if parentOfSmallestInRight.left is smallestInRight:
+                parentOfSmallestInRight.left = smallestInRight.right
+            else:
+                parentOfSmallestInRight.right = smallestInRight.right
+        return data # 删除成功
+
 tree = BinaryTree() #声明一个二叉树
+'''
 tree.root = BinaryTree.Node(5)
 tree.root.left = BinaryTree.Node(3)
 tree.root.right = BinaryTree.Node(7)
@@ -228,8 +336,31 @@ tree.root.left.left.right = BinaryTree.Node(2)
 tree.root.left.right = BinaryTree.Node(4)
 tree.root.right.left = BinaryTree.Node(6)
 tree.root.right.right = BinaryTree.Node(8)
+'''
+tree.add(5)
+tree.add(3)
+tree.add(7)
+tree.dfs()
+tree.add(1)
+tree.add(4)
+tree.dfs()
+tree.add(6)
+tree.add(8)
+tree.dfs()
+tree.add(2)
+tree.dfs()
+print(tree.add(2)) # None
+tree.dfs()
+tree.remove(2)
+tree.dfs()
+tree.remove(7)
+tree.dfs()
+tree.remove(5)
+tree.dfs()
 
-print(tree.find_min())
+#print(tree.find_min())
+#print(tree.find_max_r())
+#print(tree.find(9))
 #tree.dfs(tree.root) #从根节点开始遍历
 #tree.dfs_non_recursive() #从根节点开始遍历
 #tree.bfs() #广度优先遍历
