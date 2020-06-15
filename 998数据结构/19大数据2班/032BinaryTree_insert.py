@@ -213,7 +213,11 @@ class BinaryTree:
         if self.root is None: #根为空：空树
             return None
         else:
-            return self.__find_min(self.root) #从根节点开始寻找最小的节点
+            node = self.__find_min(self.root) #从根节点开始寻找最小的节点
+            if node is None:
+                return None
+            else:
+                return node.data
     
     def __find_min(self, node):
         ''' 非递归的实现，用while循环
@@ -224,9 +228,24 @@ class BinaryTree:
         '''
         #递归的思路：
         if node.left is None: # 如果该节点没有左子树
-            return node.data  # 出口：返回这个节点的数据
+            return node  # 出口：返回这个节点的数据
         else: #否则，在有左子树的情况下
             return self.__find_min(node.left)#返回 它左子树上最小的节点的数据（递归调用）
+
+    def find_max(self):
+        node = self.__find_max(self.root) #从根开始，递归搜索最大值
+        if node is None:
+            return None
+        else:
+            return node.data
+
+    def __find_max(self, node):
+        if node is None:
+            return None
+        if node.right is None: #没有右子树
+            return node
+        else:
+            return self.__find_max(node.right) #在右子树上递归搜索最大值
 
 tree = BinaryTree()
 tree.insert(5)
@@ -249,6 +268,7 @@ tree.root.right.right.left = BinaryTree.Node(9)
 tree.root.right.right.right = BinaryTree.Node(11)
 '''
 
-#print(tree.find_min())  # 1
+print(tree.find_min())  # 1
+print(tree.find_max())  # 8
 #tree.bfs()
 #tree.inorder_dfs_non_recursive()
