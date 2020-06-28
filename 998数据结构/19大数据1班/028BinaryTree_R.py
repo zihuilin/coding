@@ -83,6 +83,25 @@ class BinaryTree:  # 二叉树
         #最后,返回这个子树的根
         return node
 
+    def remove(self, data):
+        self.root = self.__remove(data, self.root)
+
+    def __remove(self, data, node):
+        if node is None: #在空树上删除data
+            return None #删除完了，还是空树
+        elif data < node.data: #要删除的数据比根小
+            node.left = self.__remove(data, node.left)#在左子树上删除
+        elif data > node.data: #要删除的数据比根大
+            node.right = self.__remove(data, node.right)#在右子树上删除
+        #下面就是data 等于 node.data的情况了
+        elif node.left is not None and node.right is not None: #既有左子树，也有右子树
+            node.data = self.__find_min(node.right).data #将node右子树上最小节点的数据，存放到node里
+            node.right = self.__remove(node.data, node.right) #将右子树里最小的节点删除（递归）
+        elif node.left is not None: #右子树一定是没有的
+            node = node.left
+        else: #有右子树，没有左子树,以及左右都没有
+            node = node.right
+        return node #返回删除完后，新的树的根
 
 
 tree = BinaryTree()
@@ -98,7 +117,22 @@ tree.dfs()
 print(tree.find_min())
 print(tree.find_max())
 print(tree.find(9))
+tree.add(1)
+tree.add(4)
+tree.add(6)
+tree.add(8)
+tree.add(2)
+tree.add(0)
+tree.add(9)
 
+tree.dfs()
+tree.remove(5)
+tree.dfs()
+tree.remove(3)
+tree.dfs()
+
+tree.remove(0)
+tree.dfs()
 
 
 
