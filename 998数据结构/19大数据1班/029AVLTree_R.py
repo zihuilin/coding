@@ -116,7 +116,6 @@ class AVLTree:
         stack = []
         self.root = self.__remove(data, self.root, stack)
         lastNode = stack[len(stack)-1]
-        self.dfs()
         if lastNode is not None and lastNode.data == data: #有真正删除
             #依次解决这些节点可能存在的平衡问题
             for i in range(len(stack)-2, -1, -1):
@@ -124,7 +123,6 @@ class AVLTree:
                 isRoot = False
                 if node is self.root:
                     isRoot = True
-                    print("isRoot")
                 if self.height(node.left) - self.height(node.right) > 1:
                     if self.height(node.left.left) > self.height(node.left.right):
                         node = self.__rotateLeft(node)
@@ -132,9 +130,7 @@ class AVLTree:
                         node = self.__doubleRotateLeft(node)
                 elif self.height(node.right) - self.height(node.left) > 1:
                     if self.height(node.right.right) > self.height(node.right.left):
-                        print("right " + str(node.data))
                         node = self.__rotateRight(node)
-                        print("right " + str(node.data))
                     else:
                         node = self.__doubleRotateRight(node)
                 if isRoot:
@@ -148,7 +144,6 @@ class AVLTree:
 
 
     def __remove(self, data, node, stack):
-        print(node.data)
         stack.append(node) #将访问到的节点压栈
         if node is None:
             return None
