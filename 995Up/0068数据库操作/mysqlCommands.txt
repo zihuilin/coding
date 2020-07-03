@@ -1,8 +1,8 @@
 show databases;
 create database javagaoji;
 use javagaoji;
-create table user (name varchar(30), age int);
-insert into user values('jack', 18);
+create table user (name varchar(30), password varchar(30), age int);
+insert into user values('jack', '123', 18);
 select * from user;
 delete from user where name='rose';
 update user set age=16 where name='rose';
